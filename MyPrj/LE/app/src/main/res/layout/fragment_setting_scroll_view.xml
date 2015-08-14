@@ -1,0 +1,89 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.github.ksoichiro.android.observablescrollview.ObservableScrollView
+        android:id="@+id/scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:overScrollMode="never"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/flexible_space_image_height"
+                android:background="@android:color/transparent" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="#fff"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin">
+
+
+                <com.gc.materialdesign.views.ButtonRectangle
+                    android:id="@+id/btnChooseCountry"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#1E88E5"
+                    android:text="@string/choose_ur_country" />
+
+                <com.gc.materialdesign.views.ButtonRectangle
+                    android:id="@+id/btnRemoveAds"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_height="wrap_content"
+                    android:background="#e51c23"
+                    android:text="@string/remove_ads" />
+
+
+                <com.gc.materialdesign.views.ButtonRectangle
+                    android:id="@+id/btnRemoveGive"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#00bcd4"
+                    android:text="@string/remove_ads_and_give_cf" />
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:minHeight="60dp"
+                    android:text="@string/warning_iap"
+                    android:textColor="#ffff0003"
+                    android:textSize="15sp"
+                    android:textStyle="bold|italic" />
+
+                <com.gc.materialdesign.views.ButtonRectangle
+                    android:id="@+id/btnRate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#1E88E5"
+                    android:text="@string/rate_me" />
+                <com.gc.materialdesign.views.ButtonRectangle
+                    android:id="@+id/btnLikeUs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#1E88E5"
+                    android:text="@string/like_us" />
+            </LinearLayout>
+        </LinearLayout>
+    </com.github.ksoichiro.android.observablescrollview.ObservableScrollView>
+
+
+</FrameLayout>

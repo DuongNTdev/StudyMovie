@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/LE.iml" filepath="$PROJECT_DIR$/LE.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ObservableScrollView/ObservableScrollView.iml" filepath="$PROJECT_DIR$/ObservableScrollView/ObservableScrollView.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PinnedHeader/PinnedHeader.iml" filepath="$PROJECT_DIR$/PinnedHeader/PinnedHeader.iml" />
+      <module fileurl="file://$PROJECT_DIR$/androidBillingLibrary/androidBillingLibrary.iml" filepath="$PROJECT_DIR$/androidBillingLibrary/androidBillingLibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/draggablepanel/draggablepanel.iml" filepath="$PROJECT_DIR$/draggablepanel/draggablepanel.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simpleAndroidFileChooser/simpleAndroidFileChooser.iml" filepath="$PROJECT_DIR$/simpleAndroidFileChooser/simpleAndroidFileChooser.iml" />
+      <module fileurl="file://$PROJECT_DIR$/vitamio/vitamio.iml" filepath="$PROJECT_DIR$/vitamio/vitamio.iml" />
+    </modules>
+  </component>
+</project>

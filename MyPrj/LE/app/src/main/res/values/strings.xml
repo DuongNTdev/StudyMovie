@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">Study Movie</string>
+    <string name="warning">Warning</string>
+    <string name="need_choose_country">You need choose your country before watch video</string>
+    <string name="argee">Argee</string>
+    <string name="subtitle_and_film_path_is_empty">Subtitle and filmpath path is empty</string>
+    <string name="subtitle_path_is_empty">Subtitle path is empty</string>
+    <string name="film_path_is_empty">Filmpath path is empty</string>
+    <string name="cant_parse_subtitle">Cannot read subtitle file, please sure your subtitle file is avaiable and can use?</string>
+    <string name="cant_play_video">Cannot play video, please re-check the path of your video</string>
+    <string name="choose_ur_country">Choose your country</string>
+    <string name="choose_film">Choose film .mp4, .avi, .m4v, .mkv, .mov , .3gp, .rmvb, .flv, .wmv</string>
+    <string name="choose_sub">Choose subtitle .srt, .ass, .scc, .stl, .ttml</string>
+    <string name="help_sub">Sample, You can download subtitle via website</string>
+    <string name="sub_link">http://subscene.com</string>
+    <string name="choose">Choose</string>
+    <string name="cancel">Cancel</string>
+    <string name="add_edit">Add/Edit</string>
+    <string name="remove_ads">Remove Ads</string>
+    <string name="remove_ads_and_give_cf">Remove Ads and Give me a coffee</string>
+    <string name="warning_iap">All feature below just only remove ads, so you can give me any coffee if our application is helpful!</string>
+    <string name="relax_of_thing">Relax of thing</string>
+    <string name="des_relax_of_thing">So fast in do learn foreign language, we learn it via film</string>
+    <string name="listen_of_thing">Listen of thing</string>
+    <string name="des_listen_of_thing">Easy in do remember word via listen, listen and listen</string>
+    <string name="translate_of_thing">Translate of thing</string>
+    <string name="des_translate_of_thing">Use Google Translate website, very useful with every body</string>
+    <string name="translate">Translate</string>
+    <string name="close">Close Google Translate</string>
+    <string name="did_remove_ads">You did remove ads, Are you want give us the coffee?</string>
+    <string name="rate_me">Rate me</string>
+    <string name="like_us">Like us</string>
+    <string name="admob_id">ca-app-pub-7058019655540017/6727467683</string>
+</resources>

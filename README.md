@@ -16,7 +16,7 @@ https://play.google.com/store/apps/details?id=yepeer.le
 ![alt tag](https://lh3.googleusercontent.com/Htp4qBS0NEehQ6jw7t15DmFb_u7cSegYinFVwbxn8buPt9w7aRmDFyZ0T7mSH4kjhRc=h900)
 
 
-Refrences some many open source below:
+References some many open source below:
 
 https://github.com/pedrovgs/DraggablePanel <br/>
 https://github.com/ksoichiro/Android-ObservableScrollView <br/>

@@ -10,12 +10,12 @@ import android.view.ViewGroup;
 /*
  * DuongNT : The sample of AppIntro libary, customize it
  */
-public class SampleSlide extends Fragment {
+public class SlideFragment extends Fragment {
 
     private static final String ARG_LAYOUT_RES_ID = "layoutResId";
 
-    public static SampleSlide newInstance(int layoutResId) {
-        SampleSlide sampleSlide = new SampleSlide();
+    public static SlideFragment newInstance(int layoutResId) {
+        SlideFragment sampleSlide = new SlideFragment();
 
         Bundle args = new Bundle();
         args.putInt(ARG_LAYOUT_RES_ID, layoutResId);
@@ -26,7 +26,7 @@ public class SampleSlide extends Fragment {
 
     private int layoutResId;
 
-    public SampleSlide() {}
+    public SlideFragment() {}
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

@@ -5,7 +5,6 @@
       <module fileurl="file://$PROJECT_DIR$/LE.iml" filepath="$PROJECT_DIR$/LE.iml" />
       <module fileurl="file://$PROJECT_DIR$/ObservableScrollView/ObservableScrollView.iml" filepath="$PROJECT_DIR$/ObservableScrollView/ObservableScrollView.iml" />
       <module fileurl="file://$PROJECT_DIR$/PinnedHeader/PinnedHeader.iml" filepath="$PROJECT_DIR$/PinnedHeader/PinnedHeader.iml" />
-      <module fileurl="file://$PROJECT_DIR$/androidBillingLibrary/androidBillingLibrary.iml" filepath="$PROJECT_DIR$/androidBillingLibrary/androidBillingLibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/draggablepanel/draggablepanel.iml" filepath="$PROJECT_DIR$/draggablepanel/draggablepanel.iml" />
       <module fileurl="file://$PROJECT_DIR$/simpleAndroidFileChooser/simpleAndroidFileChooser.iml" filepath="$PROJECT_DIR$/simpleAndroidFileChooser/simpleAndroidFileChooser.iml" />

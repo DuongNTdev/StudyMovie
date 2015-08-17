@@ -5,7 +5,7 @@ import android.view.View;
 
 import com.github.paolorotolo.appintro.AppIntro;
 
-import yepeer.le.fragments.SampleSlide;
+import yepeer.le.fragments.SlideFragment;
 import yepeer.le.save.UserData;
 
 /**
@@ -14,9 +14,9 @@ import yepeer.le.save.UserData;
 public class IntroActivity extends AppIntro {
     @Override
     public void init(Bundle savedInstanceState) {
-        addSlide(SampleSlide.newInstance(R.layout.intro));
-        addSlide(SampleSlide.newInstance(R.layout.intro2));
-        addSlide(SampleSlide.newInstance(R.layout.intro3));
+        addSlide(SlideFragment.newInstance(R.layout.intro));
+        addSlide(SlideFragment.newInstance(R.layout.intro2));
+        addSlide(SlideFragment.newInstance(R.layout.intro3));
 
         setFadeAnimation();
     }

@@ -1,3 +1,2 @@
 include ':app', ':ObservableScrollView', ':vitamio', ':draggablepanel', ':PinnedHeader'
 include ':simpleAndroidFileChooser'
-include ':androidBillingLibrary'

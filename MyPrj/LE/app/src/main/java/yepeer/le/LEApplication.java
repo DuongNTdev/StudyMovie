@@ -3,9 +3,6 @@ package yepeer.le;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Logger;
 import com.google.android.gms.analytics.Tracker;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import org.litepal.LitePalApplication;
 
@@ -15,11 +12,6 @@ import java.util.HashMap;
  * Created by duongnt on 7/26/15.
  */
 public class LEApplication extends LitePalApplication {
-    private DisplayImageOptions options = new DisplayImageOptions.Builder().build();
-
-    public DisplayImageOptions getOptions() {
-        return options;
-    }
 
     private static LEApplication instance;
 
@@ -48,9 +40,6 @@ public class LEApplication extends LitePalApplication {
     public void onCreate() {
         super.onCreate();
         LitePalApplication.initialize(this);
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
-        ImageLoader.getInstance().init(config);
-
     }
 
     public synchronized Tracker getTracker(TrackerName trackerId) {

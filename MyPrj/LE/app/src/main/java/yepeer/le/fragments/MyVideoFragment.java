@@ -45,6 +45,7 @@ import com.nineoldandroids.animation.ObjectAnimator;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -68,6 +69,18 @@ import yepeer.le.save.UserData;
  * Customize draggable view libary
  */
 public class MyVideoFragment extends Fragment implements Callback, MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener, MediaPlayer.OnCompletionListener {
+    static class MyHandler extends Handler{
+        private WeakReference<MyVideoFragment> fragment;
+
+        public MyHandler(MyVideoFragment f){
+            this.fragment = new WeakReference<MyVideoFragment>(f);
+        }
+
+        public MyVideoFragment get(){
+            return fragment.get();
+        }
+    };
+
     private DraggableView draggableView;
     private FilmModel filmModel;
     public static final String BUNDLE_FILM_ID = "BUNDLE_FILM_ID";
@@ -81,8 +94,9 @@ public class MyVideoFragment extends Fragment implements Callback, MediaPlayer.O
     private SubtitleListViewAdapter adapter;
     private RelativeLayout overlay_black;
     private SeekBar skProgress;
-    private Handler handlerHideOverlay = new Handler();
-    private Handler handlerMediaController = new Handler();
+    private static MyHandler handlerHideOverlay;
+    private static MyHandler handlerMediaController;
+    private static MyHandler subtitleDisplayHandler;
     private TextView tv_start_time, tv_duration;
     private int drawable_play_state = R.drawable.ic_play_arrow_white_48dp;
     private int drawable_pause_state = R.drawable.ic_pause_white_48dp;
@@ -105,7 +119,9 @@ public class MyVideoFragment extends Fragment implements Callback, MediaPlayer.O
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
+        handlerMediaController = new MyHandler(this);
+        handlerHideOverlay = new MyHandler(this);
+        subtitleDisplayHandler = new MyHandler(this);
         View view = inflater.inflate(R.layout.fragment_my_video, null);
         long b = getArguments().getLong(BUNDLE_FILM_ID);
         filmModel = FilmModel.find(FilmModel.class, b);
@@ -374,46 +390,52 @@ public class MyVideoFragment extends Fragment implements Callback, MediaPlayer.O
     private final int mills_show_ads = 600000;
 
     private void refreshMediaController() {
-        handlerMediaController.post(new Runnable() {
-            @Override
-            public void run() {
-                if (mediaPlayer != null) {
-                    if (mediaPlayer.isPlaying()) {
-                        tv_duration.setText(Utils.getTimeString(mediaPlayer.getDuration()));
-                        tv_start_time.setText(Utils.getTimeString(mediaPlayer.getCurrentPosition()));
-                        skProgress.setProgress((int) mediaPlayer.getCurrentPosition());
-                        iv_state.setImageResource(drawable_pause_state);
-                    } else {
-                        iv_state.setImageResource(drawable_play_state);
-                    }
-                    if (!isShowedAds && mediaPlayer.getCurrentPosition() >= mills_show_ads) {
-                        if (UserData.getInstance().didRemoveADs(getActivity())) {
-                            isShowedAds = true;
-                        } else {
-                            requestNewInterestial();
-                            isShowedAds = true;
-                        }
-                    }
-                } else {
-                    tv_duration.setText(Utils.getTimeString(0));
-                    tv_start_time.setText(Utils.getTimeString(0));
-                    skProgress.setProgress(0);
-                    iv_state.setImageResource(drawable_play_state);
-                }
-                handlerMediaController.postDelayed(this, millsRefreshMediaController);
-            }
-        });
+        handlerMediaController.post(runnableMedia);
     }
 
     private void waitHideOverlay() {
         handlerHideOverlay.removeCallbacksAndMessages(null);
-        handlerHideOverlay.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                hideOverlay();
-            }
-        }, millsHideOverlay);
+        handlerHideOverlay.postDelayed(
+            runnableHideOverlay, millsHideOverlay);
     }
+
+    private static Runnable runnableHideOverlay = new Runnable() {
+        @Override
+        public void run() {
+            handlerHideOverlay.get().hideOverlay();
+        }
+    };
+
+    private static Runnable runnableMedia = new Runnable() {
+        @Override
+        public void run() {
+
+            if (handlerMediaController.get().getMediaPlayer() != null) {
+                if (handlerMediaController.get().getMediaPlayer().isPlaying()) {
+                    handlerMediaController.get().getTv_duration().setText(Utils.getTimeString(handlerMediaController.get().getMediaPlayer().getDuration()));
+                    handlerMediaController.get().getTv_start_time().setText(Utils.getTimeString(handlerMediaController.get().getMediaPlayer().getCurrentPosition()));
+                    handlerMediaController.get().getSkProgress().setProgress((int) handlerMediaController.get().getMediaPlayer().getCurrentPosition());
+                    handlerMediaController.get().getIv_state().setImageResource(handlerMediaController.get().getDrawable_pause_state());
+                } else {
+                    handlerMediaController.get().getIv_state().setImageResource(handlerMediaController.get().getDrawable_play_state());
+                }
+                if (!handlerMediaController.get().isShowedAds() && handlerMediaController.get().getMediaPlayer().getCurrentPosition() >= handlerMediaController.get().getMills_show_ads()) {
+                    if (UserData.getInstance().didRemoveADs(handlerMediaController.get().getActivity())) {
+                        handlerMediaController.get().setIsShowedAds(true);
+                    } else {
+                        handlerMediaController.get().requestNewInterestial();
+                        handlerMediaController.get().setIsShowedAds(true);
+                    }
+                }
+            } else {
+                handlerMediaController.get().getTv_duration().setText(Utils.getTimeString(0));
+                handlerMediaController.get().getTv_start_time().setText(Utils.getTimeString(0));
+                handlerMediaController.get().getSkProgress().setProgress(0);
+                handlerMediaController.get().getIv_state().setImageResource(handlerMediaController.get().getDrawable_play_state());
+            }
+            handlerMediaController.postDelayed(this, handlerMediaController.get().getMillsRefreshMediaController());
+        }
+    };
 
     private void showOverlay() {
         ObjectAnimator.ofFloat(overlay_black, "alpha", 0, 1).start();
@@ -641,21 +663,20 @@ public class MyVideoFragment extends Fragment implements Callback, MediaPlayer.O
         refreshMediaController();
     }
 
-    private Handler subtitleDisplayHandler = new Handler();
-    private Runnable subtitleProcessesor = new Runnable() {
+    private static Runnable subtitleProcessesor = new Runnable() {
         @Override
         public void run() {
-            if (mediaPlayer != null && mediaPlayer.isPlaying()) {
-                long currentPos = mediaPlayer.getCurrentPosition();
-                Object[] subtitles = srt.captions.values().toArray();
+            if (subtitleDisplayHandler.get().getMediaPlayer() != null && subtitleDisplayHandler.get().getMediaPlayer().isPlaying()) {
+                long currentPos = subtitleDisplayHandler.get().getMediaPlayer().getCurrentPosition();
+                Object[] subtitles = subtitleDisplayHandler.get().getSrt().captions.values().toArray();
                 for (Object o : subtitles) {
                     Caption caption = Caption.class.cast(o);
                     if (currentPos >= caption.start.getMseconds()
                             && currentPos <= caption.end.getMseconds()) {
-                        onTimedText(caption);
+                        subtitleDisplayHandler.get().onTimedText(caption);
                         break;
                     } else if (currentPos > caption.end.getMseconds()) {
-                        onTimedText(null);
+                        subtitleDisplayHandler.get().onTimedText(null);
                     }
                 }
             }
@@ -700,6 +721,7 @@ public class MyVideoFragment extends Fragment implements Callback, MediaPlayer.O
         showStatusBar();
         subtitleDisplayHandler.removeCallbacksAndMessages(null);
         handlerMediaController.removeCallbacksAndMessages(null);
+        handlerHideOverlay.removeCallbacksAndMessages(null);
 
     }
 
@@ -711,6 +733,7 @@ public class MyVideoFragment extends Fragment implements Callback, MediaPlayer.O
         showStatusBar();
         subtitleDisplayHandler.removeCallbacksAndMessages(null);
         handlerMediaController.removeCallbacksAndMessages(null);
+        handlerHideOverlay.removeCallbacksAndMessages(null);
     }
 
     private void resize() {
@@ -787,10 +810,177 @@ public class MyVideoFragment extends Fragment implements Callback, MediaPlayer.O
         return false;
     }
 
+
+
     @Override
     public void onCompletion(MediaPlayer mp) {
         filmModel.setTime(0);
         filmModel.save();
         isEnded = true;
+    }
+
+
+    public DraggableView getDraggableView() {
+        return draggableView;
+    }
+
+    public static String getBundleFilmId() {
+        return BUNDLE_FILM_ID;
+    }
+
+    public SurfaceView getSplayer() {
+        return splayer;
+    }
+
+    public SurfaceHolder getSholder() {
+        return sholder;
+    }
+
+    public MediaPlayer getMediaPlayer() {
+        return mediaPlayer;
+    }
+
+    public boolean isShowedAds() {
+        return isShowedAds;
+    }
+
+    public InterstitialAd getInterstitialAd() {
+        return interstitialAd;
+    }
+
+    public ListView getLstSubtitle() {
+        return lstSubtitle;
+    }
+
+    public ArrayList<SubtitleModel> getSubtitle() {
+        return subtitle;
+    }
+
+    public SubtitleListViewAdapter getAdapter() {
+        return adapter;
+    }
+
+    public RelativeLayout getOverlay_black() {
+        return overlay_black;
+    }
+
+    public SeekBar getSkProgress() {
+        return skProgress;
+    }
+
+    public MyHandler getHandlerHideOverlay() {
+        return handlerHideOverlay;
+    }
+
+    public MyHandler getHandlerMediaController() {
+        return handlerMediaController;
+    }
+
+    public TextView getTv_start_time() {
+        return tv_start_time;
+    }
+
+    public TextView getTv_duration() {
+        return tv_duration;
+    }
+
+    public int getDrawable_play_state() {
+        return drawable_play_state;
+    }
+
+    public int getDrawable_pause_state() {
+        return drawable_pause_state;
+    }
+
+    public int getDrawable_cc_white() {
+        return drawable_cc_white;
+    }
+
+    public int getDrawable_cc_gray() {
+        return drawable_cc_gray;
+    }
+
+    public ImageView getIv_state() {
+        return iv_state;
+    }
+
+    public ImageView getIv_rewind() {
+        return iv_rewind;
+    }
+
+    public ImageView getIv_forward() {
+        return iv_forward;
+    }
+
+    public ImageView getIv_aspect() {
+        return iv_aspect;
+    }
+
+    public ImageView getIv_min() {
+        return iv_min;
+    }
+
+    public ImageView getIv_cc() {
+        return iv_cc;
+    }
+
+    public ImageView getIv_setting() {
+        return iv_setting;
+    }
+
+    public boolean isEnableCC() {
+        return isEnableCC;
+    }
+
+    public TextView getTvSubtitle() {
+        return tvSubtitle;
+    }
+
+    public TimedTextObject getSrt() {
+        return srt;
+    }
+
+    public boolean isEnded() {
+        return isEnded;
+    }
+
+    public boolean isShow_overlay() {
+        return show_overlay;
+    }
+
+    public long getMillsHideOverlay() {
+        return millsHideOverlay;
+    }
+
+    public long getMillsRefreshMediaController() {
+        return millsRefreshMediaController;
+    }
+
+    public int getMills_show_ads() {
+        return mills_show_ads;
+    }
+
+    public static Runnable getRunnableHideOverlay() {
+        return runnableHideOverlay;
+    }
+
+    public static Runnable getRunnableMedia() {
+        return runnableMedia;
+    }
+
+    public boolean isMediaPlayerLoaded() {
+        return isMediaPlayerLoaded;
+    }
+
+    public Handler getSubtitleDisplayHandler() {
+        return subtitleDisplayHandler;
+    }
+
+    public Runnable getSubtitleProcessesor() {
+        return subtitleProcessesor;
+    }
+
+    public void setIsShowedAds(boolean isShowedAds) {
+        this.isShowedAds = isShowedAds;
     }
 }

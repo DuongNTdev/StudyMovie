@@ -8,8 +8,8 @@ android {
         applicationId "yepeer.le"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 13
-        versionName "1.4"
+        versionCode 14
+        versionName "1.5"
     }
     buildTypes {
         release {
@@ -39,7 +39,6 @@ dependencies {
     compile project(':simpleAndroidFileChooser')
     compile 'jp.wasabeef:recyclerview-animators:1.2.1'
     compile files('src/main/libs/fmmr.jar')
-    compile files('src/main/libs/universal-image-loader-1.9.4.jar')
     compile project(':vitamio')
     compile project(':draggablepanel')
     compile 'me.grantland:autofittextview:0.2.+'
@@ -50,4 +49,5 @@ dependencies {
     compile 'com.github.paolorotolo:appintro:3.2.0'
     compile 'com.google.android.gms:play-services-ads:7.5.0'
     compile project(':PinnedHeader')
+    compile 'com.squareup.picasso:picasso:2.5.2'
 }

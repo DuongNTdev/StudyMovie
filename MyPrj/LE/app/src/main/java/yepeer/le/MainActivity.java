@@ -18,6 +18,7 @@ import com.github.ksoichiro.android.observablescrollview.ScrollUtils;
 import com.github.ksoichiro.android.observablescrollview.Scrollable;
 import com.nineoldandroids.view.ViewHelper;
 import com.nineoldandroids.view.ViewPropertyAnimator;
+import com.squareup.picasso.Picasso;
 
 import java.util.Calendar;
 
@@ -57,19 +58,20 @@ public class MainActivity extends BaseActivity {
         Calendar c = Calendar.getInstance();
         int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
         if(timeOfDay >= 0 && timeOfDay < 12){
-            image.setImageResource(R.drawable.morning);
+            Picasso.with(this).load(R.drawable.morning).into(image);
         }else if(timeOfDay >= 12 && timeOfDay < 16){
-            image.setImageResource(R.drawable.afternoon);
+            Picasso.with(this).load(R.drawable.afternoon).into(image);
         }else if(timeOfDay >= 16 && timeOfDay < 21){
-            image.setImageResource(R.drawable.afternoon);
+            Picasso.with(this).load(R.drawable.afternoon).into(image);
         }else if(timeOfDay >= 21 && timeOfDay < 24){
-            image.setImageResource(R.drawable.night);
+            Picasso.with(this).load(R.drawable.night).into(image);
         }
     }
 //    private Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (!LibsChecker.checkVitamioLibs(this)) {
             return;
         }
